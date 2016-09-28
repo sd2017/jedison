@@ -10,11 +10,11 @@ import java.net.URLClassLoader;
 
 public class JedisTest {
 
-    private static final String JEDIS_SERVER = "localhost";
+    public static  String JEDIS_SERVER = "localhost";
 
     private ArrayList<String> messageContainer = new ArrayList<String>();
 
-    private CountDownLatch messageReceivedLatch = new CountDownLatch(1);
+    private CountDownLatch messageReceivedLatch = new CountDownLatch(8);
     private CountDownLatch publishLatch = new CountDownLatch(1);
 
     public static void main(String[] args) throws InterruptedException {
@@ -39,7 +39,7 @@ public class JedisTest {
         log("main finished");
     }
 
-    private void run() throws InterruptedException {
+    public void run() throws InterruptedException {
         setupPublisher();
         JedisPubSub jedisPubSub = setupSubscriber();
 

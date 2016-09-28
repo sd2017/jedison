@@ -5,7 +5,7 @@
 
     public class HelloWorld
     {
-       public static void main (String args []) {
+       public static void main  (String args []) throws InterruptedException{
            ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
 
 
@@ -38,8 +38,12 @@
                }
            System.out.println("jedison 0.3.6 in main before new jedis :"+JEDIS_SERVER);
 
-        Jedis jedis = new Jedis(JEDIS_SERVER);
+           Jedis jedis = new Jedis(JEDIS_SERVER);
            System.out.println("Server is running 1 : "+jedis.ping());
+
+            JedisTest jedis_test=new JedisTest();
+            jedis_test.JEDIS_SERVER=JEDIS_SERVER;
+           jedis_test.run();
            //while (false) {
            // System.out.println("Server is running: "+jedis.ping());
         //}
