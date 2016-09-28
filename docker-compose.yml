@@ -1,10 +1,11 @@
+#docker-compose version 1.8.1, build 878cff1
 javaclient:
   build: .
   #command: java  -cp .:target/dependency/jedis-2.1.0.jar:target/jedison-0.2-SNAPSHOT.jar HelloWorld
   command: java  -cp .:target/dependency/jedis-2.1.0.jar:target/jedison-0.2-SNAPSHOT.jar HelloWorld
   links:
-   - localhost
-
-localhost:
+   - redis
+redis:
   image: redis:3.2.4
+
 #tty: true
