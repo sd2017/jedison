@@ -22,6 +22,11 @@
                 <version>2.10</version>
                 <executions>
                     <execution>
+                        <goals>
+                            <goal>sources</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>copy-dependencies</id>
                         <phase>package</phase>
                         <goals>
