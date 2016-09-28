@@ -6,9 +6,9 @@ public class HelloWorld
    {
        System.out.println("jedison 0.2 in main before new jedis ");
     Jedis jedis = new Jedis("redis");
-
-       while (true) {
-        System.out.println("Server is running: "+jedis.ping());
-	}
+       System.out.println("Server is running 1 : "+jedis.ping());
+       //while (false) {
+       // System.out.println("Server is running: "+jedis.ping());
+	//}
   }
 }  

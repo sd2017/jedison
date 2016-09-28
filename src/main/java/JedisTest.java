@@ -8,7 +8,7 @@ import redis.clients.jedis.JedisPubSub;
 
 public class JedisTest {
 
-    private static final String JEDIS_SERVER = "localhost";
+    private static final String JEDIS_SERVER = "redis";
 
     private ArrayList<String> messageContainer = new ArrayList<String>();
 
@@ -16,8 +16,9 @@ public class JedisTest {
     private CountDownLatch publishLatch = new CountDownLatch(1);
 
     public static void main(String[] args) throws InterruptedException {
-        log("101");
+        log("103");
         new JedisTest().run();
+        log("main finished");
     }
 
     private void run() throws InterruptedException {
