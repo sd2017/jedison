@@ -5,10 +5,12 @@ import java.util.concurrent.CountDownLatch;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 public class JedisTest {
 
-    private static final String JEDIS_SERVER = "redis";
+    private static final String JEDIS_SERVER = "localhost";
 
     private ArrayList<String> messageContainer = new ArrayList<String>();
 
@@ -17,6 +19,22 @@ public class JedisTest {
 
     public static void main(String[] args) throws InterruptedException {
         log("103");
+
+
+
+
+
+                ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
+
+
+                URL[] urls = ((URLClassLoader)sysClassLoader).getURLs();
+
+                for(int i=0; i< urls.length; i++)
+                {
+                    System.out.println(urls[i].getFile());
+                }
+
+
         new JedisTest().run();
         log("main finished");
     }

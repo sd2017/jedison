@@ -49,8 +49,8 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>shoshan.jedison.HelloWorld</mainClass>
+                            <classpathPrefix>dependency/</classpathPrefix>
+                            <mainClass>HelloWorld</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
