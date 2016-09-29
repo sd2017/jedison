@@ -3,12 +3,13 @@ import redis.clients.jedis.JedisPubSub;
 
 public class Subscriber extends JedisPubSub implements Runnable {
 
-    public Subscriber(Jedis jedis_, String name_,Channel channel_,PubSubReciever receiver_) {
+    public Subscriber(String JEDIS_SERVER, String name_, Channel channel_, PubSubReciever receiver_) {
         name = name_;
-        jedis = jedis_;
+        jedis= new Jedis(JEDIS_SERVER);
         channel = channel_;
-        Thread thread = new Thread(this);
-
+        thread=new Thread(this,name);
+        thread.start();
+        counter=0;
     }
 
     @Override
@@ -35,8 +36,10 @@ public class Subscriber extends JedisPubSub implements Runnable {
 
     @Override
     public void onMessage(String channel, String message) {
+        counter++;
         //messageContainer.add(message);
-        log(message, this.channel.name);
+        //log(message+name+ this.channel.name);
+
         //messageReceivedLatch.countDown();
     }
 
@@ -44,17 +47,21 @@ public class Subscriber extends JedisPubSub implements Runnable {
     public void run() {
         try {
             log("Connecting");
-            log("subscribing");
+            log("subscribing:"+channel.name);
             jedis.subscribe(this, channel.name);
             log("subscribe returned, closing down");
             jedis.quit();
         } catch (Exception e) {
             log(">>> OH NOES Sub - " + e.getMessage());
-            // e.printStackTrace();
+             e.printStackTrace();
         }
     }
 
 
+    public void info()
+    {
+        log(channel.name+" got #"+counter);
+    }
     static final long startMillis = System.currentTimeMillis();
 
     private static void log(String string, Object... args) {
@@ -64,10 +71,10 @@ public class Subscriber extends JedisPubSub implements Runnable {
     }
 
 
-protected Channel channel;
-protected Jedis jedis;
-protected JedisPubSub jedisPubSub;
-protected String name;
-protected Thread thread;
-
-        }
+    protected Channel channel;
+    protected Jedis jedis;
+    protected String name;
+    protected Thread thread;
+    protected String message;
+    protected int counter;
+}

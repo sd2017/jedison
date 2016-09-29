@@ -29,17 +29,29 @@ public class HelloWorld {
         } else {
             JEDIS_SERVER = "localhost";
         }
-        System.out.println("jedison 0.3.6 in main before new jedis :" + JEDIS_SERVER);
+        System.out.println("jedison 0.3.8 in main before new jedis :" + JEDIS_SERVER);
+        Jedis jedis_sub= new Jedis(JEDIS_SERVER);
+        try {
+            String out=jedis_sub.ping();
+            System.out.println("Server is running 1 : " + out );
+        }
+        catch ( redis.clients.jedis.exceptions.JedisConnectionException ex)
+        {
+            System.out.println("Exception Server is not connected : " + JEDIS_SERVER);
+            System.out.println(ex.getMessage());
+            return;
+            //ex.printStackTrace();
+        }
 
-        Jedis jedis = new Jedis(JEDIS_SERVER);
-        System.out.println("Server is running 1 : " + jedis.ping());
-        PubSubTest pubsubtest =new PubSubTest(jedis,new PubSubReciever());
 
-      //  {
-      //      JedisTest jedis_test = new JedisTest();
-      //      jedis_test.JEDIS_SERVER = JEDIS_SERVER;
-      //      jedis_test.run();
-      //  }
+
+        PubSubTest pubsubtest =new PubSubTest(JEDIS_SERVER,new PubSubReciever());
+
+        //  {
+        //      JedisTest jedis_test = new JedisTest();
+        //      jedis_test.JEDIS_SERVER = JEDIS_SERVER;
+        //      jedis_test.run();
+        //  }
 //while (false) {
 // System.out.println("Server is running: "+jedis.ping());
 //}
