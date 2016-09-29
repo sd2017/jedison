@@ -5,35 +5,24 @@ import java.util.concurrent.CountDownLatch;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
+
 import java.net.URL;
 import java.net.URLClassLoader;
 
 public class JedisTest {
 
-    public static  String JEDIS_SERVER = "localhost";
-
+    public static String JEDIS_SERVER = "localhost";
     private ArrayList<String> messageContainer = new ArrayList<String>();
-
     private CountDownLatch messageReceivedLatch = new CountDownLatch(8);
     private CountDownLatch publishLatch = new CountDownLatch(1);
 
     public static void main(String[] args) throws InterruptedException {
         log("103");
-
-
-
-
-
-                ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
-
-
-                URL[] urls = ((URLClassLoader)sysClassLoader).getURLs();
-
-                for(int i=0; i< urls.length; i++)
-                {
-                    System.out.println(urls[i].getFile());
-                }
-
+        ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
+        URL[] urls = ((URLClassLoader) sysClassLoader).getURLs();
+        for (int i = 0; i < urls.length; i++) {
+            System.out.println(urls[i].getFile());
+        }
 
         new JedisTest().run();
         log("main finished");
@@ -47,7 +36,7 @@ public class JedisTest {
         publishLatch.countDown();
 
         messageReceivedLatch.await();
-        log("Got message: %s", messageContainer.iterator().next());
+        log("run got message: %s", messageContainer.iterator().next());
 
         jedisPubSub.unsubscribe();
     }
@@ -58,7 +47,7 @@ public class JedisTest {
             public void run() {
                 try {
                     log("Connecting");
-                    Jedis jedis = new Jedis(JEDIS_SERVER,6379);
+                    Jedis jedis = new Jedis(JEDIS_SERVER, 6379);
                     jedis.connect();
                     log("Waiting to publish");
                     publishLatch.await();
@@ -66,7 +55,7 @@ public class JedisTest {
 
                     Thread.sleep(1000);
                     log("publishing");
-                    log("Jedig isConnected" + Boolean.toString(jedis.isConnected()));
+                    log("Jedis isConnected:" + Boolean.toString(jedis.isConnected()));
                     jedis.publish("test", "This is a message");
                     log("published, closing publishing connection");
                     jedis.quit();
@@ -115,7 +104,7 @@ public class JedisTest {
             public void run() {
                 try {
                     log("Connecting");
-                    Jedis jedis = new Jedis(JEDIS_SERVER,6379);
+                    Jedis jedis = new Jedis(JEDIS_SERVER, 6379);
                     log("subscribing");
                     jedis.subscribe(jedisPubSub, "test");
                     log("subscribe returned, closing down");
